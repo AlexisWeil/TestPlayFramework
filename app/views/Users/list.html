@@ -21,6 +21,16 @@ Add a new user :
     <input type="submit" value="Submit" id="AddUserSubmit" />
 #{/form}
 
+<div id="TestRaphael"></div>
+
+<script type="text/javascript">
+    $(function() {
+        var paper = Raphael("TestRaphael", 200, 200);
+//        var rect = paper.rect(50, 50, 50, 50, 4).attr({ fill: '#CA4141', stroke: '#9D2C2C'});
+        paper.path("M277.667,300.667c0,6.627-5.358,12-11.967,12h-96.733  c-6.609,0-11.967-5.373-11.967-12v-34c0-6.627,5.358-12,11.967-12H265.7c6.609,0,11.967,5.373,11.967,12V300.667z");
+    });
+</script>
+
 <script type="text/javascript">
     $(function() {
         $('#AddUserSubmit').click(function(event) {
