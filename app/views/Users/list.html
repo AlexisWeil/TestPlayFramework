@@ -30,7 +30,7 @@ Add a new user :
 
     function makeValidationTooltip(message, element) {
         if(element != undefined && element != null && $(element).length> 0) {
-            alert($(element).offset().left + " - " + $(element).width());
+//            alert($(element).offset().left + " - " + $(eleme>nt).width());
 
             var textMargin = 30;
             var paper = Raphael("TestRaphael", 500, 500);
@@ -40,7 +40,7 @@ Add a new user :
 
             var bgLength = textShadow.getBBox().width + textMargin;
             var background = paper.path("m 7.6437655,1.1306475 " + bgLength + ",0 0,35.7781375 -" + bgLength + ",0 0,-11.926046 -6.426588,-5.952326 6.426588,-5.97372 z")
-                    .attr({fill: '90-#A92F2F-#CA4141', stroke: '#9D2C2C'});
+                    .attr({fill: '#c94141', 'stroke-opacity': 0});
             var bgWidth = background.getBBox().width + 5;
             var bgHeight = background.getBBox().height + 3;
 
