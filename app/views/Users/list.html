@@ -21,14 +21,40 @@ Add a new user :
     <input type="submit" value="Submit" id="AddUserSubmit" />
 #{/form}
 
-<div id="TestRaphael"></div>
+<div id="TestRaphael" style="width: 114px; height: 38px;"></div>
 
 <script type="text/javascript">
     $(function() {
-        var paper = Raphael("TestRaphael", 200, 200);
-//        var rect = paper.rect(50, 50, 50, 50, 4).attr({ fill: '#CA4141', stroke: '#9D2C2C'});
-        paper.path("M277.667,300.667c0,6.627-5.358,12-11.967,12h-96.733  c-6.609,0-11.967-5.373-11.967-12v-34c0-6.627,5.358-12,11.967-12H265.7c6.609,0,11.967,5.373,11.967,12V300.667z");
+//        makeValidationTooltip("Mon beau  message");
     });
+
+    function makeValidationTooltip(message, element) {
+        if(element != undefined && element != null && $(element).length> 0) {
+            alert($(element).offset().left + " - " + $(element).width());
+
+            var textMargin = 30;
+            var paper = Raphael("TestRaphael", 500, 500);
+
+            var textShadow = paper.text(0, 0, message)
+                    .attr({fill: '#421414',  'font-weight': 'bold', 'font-size': 15});
+
+            var bgLength = textShadow.getBBox().width + textMargin;
+            var background = paper.path("m 7.6437655,1.1306475 " + bgLength + ",0 0,35.7781375 -" + bgLength + ",0 0,-11.926046 -6.426588,-5.952326 6.426588,-5.97372 z")
+                    .attr({fill: '90-#A92F2F-#CA4141', stroke: '#9D2C2C'});
+            var bgWidth = background.getBBox().width + 5;
+            var bgHeight = background.getBBox().height + 3;
+
+            var text = paper.text(bgWidth/2 + 3, bgHeight/2, message)
+                    .attr({fill: 'white',  'font-weight': 'bold', 'font-size': 15});
+
+            textShadow.attr({x: bgWidth/2 + 4, y: bgHeight/2});
+            textShadow.insertBefore(text);
+
+            paper.setSize(bgWidth, bgHeight);
+            $('#TestRaphael').width(bgWidth);
+            $('#TestRaphael').height(bgHeight);
+        }
+    }
 </script>
 
 <script type="text/javascript">
@@ -57,6 +83,7 @@ Add a new user :
                                 var error = json["errors"][e];
 
                                 var input = form.find('[name="' + error['id'] + '"]').css("border", "1px solid red");
+                                makeValidationTooltip(error['message'], input);
                             }
 
                             valid = false;
