@@ -32,19 +32,50 @@ Add a new user :
 </script>
 
 <script type="text/javascript">
+
     $(function() {
-        $('#AddUserSubmit').click(function(event) {
+        $('input[type="submit"]').click(function(event) {
             event.preventDefault();
 
-            addUserAjax();
+            var form = $(this).parents('form').eq(0);
+
+            sendAjaxForm(form, function() { alert("hello"); });
         });
     });
 
+    function sendAjaxForm(form, callback) {
+        var url = form.attr('action') + "?" + form.serialize();
+
+        $.getJSON(
+                url,
+                function(json) {
+                    var valid = true;
+
+                    for(var key in json) {
+                        if(key == "id" && json[key] == "ValidationErrors") {
+                            for(var e in json["errors"]) {
+                                var error = json["errors"][e];
+
+                                var input = form.find('[name="' + error['id'] + '"]').css("border", "1px solid red");
+                            }
+
+                            valid = false;
+                        }
+                    }
+
+                    if(valid && callback != undefined) {
+                        callback(json);
+                    }
+                }
+        );
+    }
+
     function addUserAjax() {
-        var addUserUrl = #{jsAction @Users.testUser(':firstname', ':lastname') /}
 
         var firstname = $('#AddUserFirstname').val();
         var lastname = $('#AddUserLastname').val();
+
+        alert()
 
         $.getJSON(
             addUserUrl({ firstname: firstname, lastname: lastname}),

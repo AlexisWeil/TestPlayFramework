@@ -11,16 +11,22 @@ import java.util.List;
  * Time: 00:27
  * To change this template use File | Settings | File Templates.
  */
-public class ValidationUtil {
+public class ValidationErrorsWrapper {
 
-    public static List<Error> wrappedErrors(List<play.data.validation.Error> errors) {
+    public String id = "ValidationErrors";
+    public List<Error> errors;
+
+    public static ValidationErrorsWrapper getFromErrors(List<play.data.validation.Error> errors) {
         List<Error> wrappedErrors = new ArrayList<Error>();
 
         for (play.data.validation.Error error : errors) {
             wrappedErrors.add(new Error(error.getKey(), error.message()));
         }
 
-        return wrappedErrors;
+        ValidationErrorsWrapper wrapper = new ValidationErrorsWrapper();
+        wrapper.errors = wrappedErrors;
+
+        return wrapper;
     }
 
     public static class Error implements Serializable {
@@ -29,7 +35,7 @@ public class ValidationUtil {
             this.message = message;
         }
 
-        private String id;
-        private String message;
+        public String id;
+        public String message;
     }
 }

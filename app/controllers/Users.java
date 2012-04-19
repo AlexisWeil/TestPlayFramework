@@ -5,7 +5,7 @@ import play.data.validation.*;
 import play.db.jpa.JPA;
 import play.mvc.Controller;
 import utils.RequestUtil;
-import utils.ValidationUtil;
+import utils.ValidationErrorsWrapper;
 
 import java.util.List;
 
@@ -31,14 +31,14 @@ public class Users extends Controller {
             render(users);
     }
 
-    public static void testUser(String firstname, String lastname) {
-        System.out.println("firstname : " + firstname + " - lastname : " + lastname);
+    public static void testUser(@Valid User user) {
+//        System.out.println("firstname : " + firstname + " - lastname : " + lastname);
+//
+//        User user = new User();
+//        user.firstname = firstname;
+//        user.lastname = lastname;
 
-        User user = new User();
-        user.firstname = firstname;
-        user.lastname = lastname;
-
-        validation.valid(user);
+//        validation.valid(user);
 
         if(Validation.hasErrors()) {
             System.out.println("User not valid !");
@@ -46,7 +46,7 @@ public class Users extends Controller {
             for(play.data.validation.Error error : Validation.errors()) {
                 System.out.println(error.getKey());
             }
-            renderJSON(ValidationUtil.wrappedErrors(Validation.errors()));
+            renderJSON(ValidationErrorsWrapper.getFromErrors(Validation.errors()));
         }
         else {
             user.save();
